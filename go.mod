@@ -1,4 +1,4 @@
-module github.com/emersion/go-mls
+module github.com/BitravenS/go-mls
 
 go 1.20
 
