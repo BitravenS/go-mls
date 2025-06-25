@@ -27,6 +27,7 @@ const (
 	cipherSuiteMLS_256_DHKEMP521_AES256GCM_SHA512_P521             cipherSuite = 0x0005
 	cipherSuiteMLS_256_DHKEMX448_CHACHA20POLY1305_SHA512_Ed448     cipherSuite = 0x0006
 	cipherSuiteMLS_256_DHKEMP384_AES256GCM_SHA384_P384             cipherSuite = 0x0007
+	cipherSuiteMLS_256_DHKEMX25519_KYBER768_DRAFT00_SHA256_Ed25519 cipherSuite = 0x0008
 )
 
 func (cs cipherSuite) String() string {
@@ -45,6 +46,8 @@ func (cs cipherSuite) String() string {
 		return "MLS_256_DHKEMX448_CHACHA20POLY1305_SHA512_Ed448"
 	case cipherSuiteMLS_256_DHKEMP384_AES256GCM_SHA384_P384:
 		return "MLS_256_DHKEMP384_AES256GCM_SHA384_P384"
+	case cipherSuiteMLS_256_DHKEMX25519_KYBER768_DRAFT00_SHA256_Ed25519:
+		return "MLS_256_DHKEMX25519_KYBER768_DRAFT00_SHA256_Ed25519"
 	}
 	return fmt.Sprintf("<%d>", cs)
 }
@@ -114,6 +117,11 @@ var cipherSuiteDescriptions = map[cipherSuite]cipherSuiteDescription{
 		hash: crypto.SHA384,
 		hpke: hpke.NewSuite(hpke.KEM_P384_HKDF_SHA384, hpke.KDF_HKDF_SHA384, hpke.AEAD_AES256GCM),
 		sig:  ecdsaSignatureScheme{elliptic.P384(), crypto.SHA384},
+	},
+	cipherSuiteMLS_256_DHKEMX25519_KYBER768_DRAFT00_SHA256_Ed25519: {
+		hash: crypto.SHA256,
+		hpke: hpke.NewSuite(hpke.KEM_X25519_KYBER768_DRAFT00, hpke.KDF_HKDF_SHA256, hpke.AEAD_ChaCha20Poly1305),
+		sig:  ed25519SignatureScheme{},
 	},
 }
 
